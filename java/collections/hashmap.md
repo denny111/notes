@@ -27,3 +27,25 @@
 在开放寻址中，所有的元素都存在散列表中。使用开放寻址法插入一个元素，需要连续地检查散列表，称为“探查”，直到找到一个空槽存放该元素。探查序列即为下一个需要探查地表位。常用来计算开放寻址法中的探查序列的三种方法：线性探查、二次探查和双重探查
 
 ## hashmap 源码解析
+
+以jdk1.8为例。在jdk1.8中，当链表长度超过8时，会将其转为红黑数。影响hashmap查询效率的主要是链表的长度，使用红黑叔使其查询效率由o(n)降为o(lgn)
+
+### 变量解释
+
+- bucket:数组中每个可以存放元素的位置
+- load factor:加载因子,衡量哈希表多满时进行自动扩容，默认0.75
+- initial capacity:哈希表创建时桶的数量
+- threshold:下一次进行扩容的阀值,load factor * initial capacity
+- 
+### 常量解释
+
+- DEFAULT_INITIAL_CAPACITY:默认初始容量,16
+- MAXIMUM_CAPACITY:最大容量,1<<30
+- DEFAULT_LOAD_FACTOR:初始加载因子,0.75
+- TREEIFY_THRESHOLD:由链表转为红黑树的桶的bin的数量
+- UNTREEIFY_THRESHOLD:由红黑树转为链表的桶的bin的数量
+- MIN_TREEIFY_CAPACITY:最小将链接转为红黑树的哈希表的容量，避免在建立初期，多个健值对恰好被放到一个链表中，导致不必要的转换。
+
+### subclass 
+
+#### Node<K, V>
