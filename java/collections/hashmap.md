@@ -49,3 +49,18 @@
 ### subclass 
 
 #### Node<K, V>
+
+基础的一个hash bin 的节点，也是绝大多数使用的。实现了Map.Entry接口。成员变量有hash，key，value，next。就是单向链表的节点，比较简单。
+
+#### TreeNode<K,V>
+
+用于tree bin（中文树容器？）。继承自LinkedHashMap.Entry<K,V>，它又继承自HashMap.Node<K,V>。成员变量除了有hash，key，value，next，还有be for，after，parent，left，right，prev。但是before与after继承自LinkedHashMap.Entry<K,V>并未使用。<br>
+
+TreeNode的出现是因为在jdk1.8的更新中HashMap引入了红黑树，提高了查询的效率，这个也会在后面的解析中说到。
+
+
+## 小tips
+
+在阅读源码时，也看到一些有意思的地方，列在下面
+
+- (n - 1) & hash 对hash值对于数组长度进行取余，等价于 hash ％ n 位运算效率更高，n的大小为2的指数，所以（n - 1）的二进制为11...11，与hash值做与运算即对其求余。
